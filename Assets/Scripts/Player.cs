@@ -11,11 +11,16 @@ public class Player : MonoBehaviour
     void Start()
     {
 
-        Enemy.OnEnemyDied += EnemyOnEnemyDied;
+        Enemy.OnEnemyDied += EnemyOnOnEnemyDied;
 
     }
 
-    void EnemyOnOnEnemyDided(int pointsWorth)
+    private void OnDestroy()
+    {
+        Enemy.OnEnemyDied -= EnemyOnOnEnemyDied;
+    }
+
+    void EnemyOnOnEnemyDied(int pointsWorth)
     {
         Debug.Log("Player recieved enemy died");
     }
@@ -23,13 +28,16 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      if (Input.GetKeyDown(KeyCode.Space))
-      {
-        GameObject shot = Instantiate(bullet, shottingOffset.position, Quaternion.identity);
-        Debug.Log("Bang!");
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
 
-        Destroy(shot, 3f);
+            GetComponent<Animator>().SetTrigger("Shoot Trigger");
 
-      }
+            GameObject shot = Instantiate(bullet, shottingOffset.position, Quaternion.identity);
+            Debug.Log("Bang!");
+
+            Destroy(shot, 3f);
+
+        }
     }
 }

@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
         Debug.Log("Ouch!");
         Destroy(collision.gameObject);
 
-        OnEnemyDied.Invoke(collision);
+        OnEnemyDied.Invoke(points);
         Destroy(gameObject);
     }
 }
