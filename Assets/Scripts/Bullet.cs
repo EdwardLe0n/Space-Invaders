@@ -9,6 +9,11 @@ public class Bullet : MonoBehaviour
 {
     private Rigidbody2D myRigidbody2D;
 
+    // Setting up a delegate and a listener to tell the player
+    // when a bullet has been destroyed
+    public delegate void BulletDestroyed();
+    public static event BulletDestroyed OnBulletDestroy;
+
     public float speed = 5;
     // Start is called before the first frame update
     void Start()
@@ -22,5 +27,11 @@ public class Bullet : MonoBehaviour
     {
         myRigidbody2D.velocity = Vector2.up * speed; 
         // Debug.Log("Wwweeeeee");
+    }
+
+    private void OnDestroy()
+    {
+        // When this bullet gets destroyed, it notifies the player
+        OnBulletDestroy.Invoke();
     }
 }

@@ -7,17 +7,22 @@ public class Player : MonoBehaviour
     public GameObject bullet;
     public Transform shottingOffset;
     public float pSpeed = 100f;
+    public bool canShoot = true;
 
     void Start()
     {
 
         Enemy.OnEnemyDied += EnemyOnEnemyDied;
+        Bullet.OnBulletDestroy += BulletDestroyed;
 
     }
 
     private void OnDestroy()
     {
+
         Enemy.OnEnemyDied -= EnemyOnEnemyDied;
+        Bullet.OnBulletDestroy -= BulletDestroyed;
+
     }
 
     void EnemyOnEnemyDied(int pointsWorth)
@@ -25,10 +30,16 @@ public class Player : MonoBehaviour
         // Debug.Log("Player recieved enemy died");
     }
 
+    void BulletDestroyed()
+    {
+        Debug.Log("Bullet has been destroyed");
+        canShoot = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && canShoot)
         {
 
             //GetComponent<Animator>().SetTrigger("Shoot Trigger");
@@ -36,7 +47,8 @@ public class Player : MonoBehaviour
             GameObject shot = Instantiate(bullet, shottingOffset.position, Quaternion.identity);
             // Debug.Log("Bang!");
 
-            Destroy(shot, 3f);
+            canShoot = false;
+            Destroy(shot, 1.2f);
 
         }
 
