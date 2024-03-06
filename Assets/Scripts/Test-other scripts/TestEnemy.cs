@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class TestEnemy : MonoBehaviour
 {
 
     public int points = 3;
@@ -20,9 +20,11 @@ public class Enemy : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
 
-        // GetComponent<Animator>().SetTrigger("enemyDeath");
+        GetComponent<Animator>().SetTrigger("enemyDeath");
 
-        // Debug.Log("Ouch!");
+        
+
+        Debug.Log("Ouch!");
         Destroy(collision.gameObject);
 
         OnEnemyDied.Invoke(points);
