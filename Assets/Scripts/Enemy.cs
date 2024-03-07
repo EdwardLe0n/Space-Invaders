@@ -38,10 +38,10 @@ public class Enemy : MonoBehaviour
 
             // Sets the dead bool to true
             dead = true;
-
+            
             // Lets other systems in the game know that this enemy has died, and will then destroy itself
             OnEnemyDied.Invoke(points);
-            Destroy(gameObject, 1f);
+            Destroy(this.gameObject, 1f);
 
             // GetComponent<Animator>().SetTrigger("enemyDeath");
 

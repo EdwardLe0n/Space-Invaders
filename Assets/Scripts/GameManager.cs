@@ -17,8 +17,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Subscribes the game manager to the OnEnemyDied Finction
-        Enemy.OnEnemyDied += EnemyOnEnemyDied;
 
         // Gets the value stored in player prefs and puts it in hiScore
         hiScore = Getint("hiScore");

@@ -8,11 +8,15 @@ public class Player : MonoBehaviour
     public Transform shottingOffset;
     public float pSpeed = 100f;
     public bool canShoot = true;
+    public bool firstFired = false;
+
+    public delegate void PlayerState();
+    public static event PlayerState FirstShot;
 
     void Start()
     {
 
-        Enemy.OnEnemyDied += EnemyOnEnemyDied;
+        // Subscribes itslef to see when the bullet gets destroyed
         Bullet.OnBulletDestroy += BulletDestroyed;
 
     }
@@ -20,14 +24,8 @@ public class Player : MonoBehaviour
     private void OnDestroy()
     {
 
-        Enemy.OnEnemyDied -= EnemyOnEnemyDied;
         Bullet.OnBulletDestroy -= BulletDestroyed;
 
-    }
-
-    void EnemyOnEnemyDied(int pointsWorth)
-    {
-        // Debug.Log("Player recieved enemy died");
     }
 
     void BulletDestroyed()
@@ -41,8 +39,18 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && canShoot)
         {
-
+            //Debug.Log(firstFired);
             //GetComponent<Animator>().SetTrigger("Shoot Trigger");
+
+            // If this is the first time a player has shot this game, then
+            // It will send out a message so that some UI elements will
+            // then get deleted
+            if (!firstFired)
+            {
+                firstFired = true;
+                FirstShot.Invoke();
+                //Debug.Log("Got to ptA");
+            }
 
             GameObject shot = Instantiate(bullet, shottingOffset.position, Quaternion.identity);
             // Debug.Log("Bang!");
