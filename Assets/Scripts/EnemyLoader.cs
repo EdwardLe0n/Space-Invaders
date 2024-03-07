@@ -14,6 +14,7 @@ public class EnemyLoader : MonoBehaviour
     public GameObject enemC;
 
     public int enemyCount = 0;
+    public float heightMod = 3f;
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +31,17 @@ public class EnemyLoader : MonoBehaviour
 
     void LoadEnemies()
     {
-        Instantiate(enemA, new Vector3(1f, 1f, 1f), Quaternion.identity);
-        Debug.Log("Pog");
+        
+        GameObject enem;
+
+        for (int i = 0; i <= 5; i++ ){
+            enem = Instantiate(enemA, new Vector3(2f * i - 5f, 1f + heightMod, 1f), Quaternion.identity, this.transform);
+            enem.name = "enemA" + i;
+            enem = Instantiate(enemB, new Vector3(2f * i - 5f, 0f + heightMod, 1f), Quaternion.identity, this.transform);
+            enem.name = "enemB" + i;
+            enem = Instantiate(enemC, new Vector3(2f * i - 5f,-1f + heightMod, 1f), Quaternion.identity, this.transform);
+            enem.name = "enemC" + i;
+        }
 
     }
 

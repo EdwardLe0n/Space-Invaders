@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
 
+        // Subscribes the game manager to the OnEnemyDied Finction
+        Enemy.OnEnemyDied += EnemyOnEnemyDied;
+
         // Gets the value stored in player prefs and puts it in hiScore
         hiScore = Getint("hiScore");
 

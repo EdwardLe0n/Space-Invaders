@@ -24,6 +24,7 @@ public class satScript : MonoBehaviour
     void FirstShotFired()
     {
         //Debug.Log("Got to ptB");
+        
         GotDestroyed.Invoke();
         Destroy(gameObject);
     }
