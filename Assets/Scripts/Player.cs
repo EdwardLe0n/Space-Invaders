@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
 
     void BulletDestroyed()
     {
-        Debug.Log("Bullet has been destroyed");
+        //Debug.Log("Bullet has been destroyed");
         canShoot = true;
     }
 
