@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4837052015135921892}
   - component: {fileID: 22527667405640777}
   - component: {fileID: 827374889311743529}
+  - component: {fileID: 5790064854992659342}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -102,6 +103,9 @@ MonoBehaviour:
   bullet: {fileID: 2457785739244962049, guid: d4511b14daaa37c468a74ed386b2583f, type: 3}
   shottingOffset: {fileID: 4488331178397749483}
   pSpeed: 5000
+  canShoot: 1
+  firstFired: 0
+  lives: 1
 --- !u!54 &827374889311743529
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -129,6 +133,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!95 &5790064854992659342
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82332047751732651}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c21bb44ce1730d1478dd227c23f94d03, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &402905053474194021
 GameObject:
   m_ObjectHideFlags: 0

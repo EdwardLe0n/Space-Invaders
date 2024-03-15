@@ -21,6 +21,7 @@ public class EnemyLoader : MonoBehaviour
     {
         // Subscribes the enemy loader to the destruction of the satScript
         satScript.GotDestroyed += LoadEnemies;
+        LoadEnemies();
     }
 
     // Update is called once per frame

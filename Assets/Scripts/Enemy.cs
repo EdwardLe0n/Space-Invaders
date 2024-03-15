@@ -11,9 +11,11 @@ public class Enemy : MonoBehaviour
     private bool dead = false;
     public int health = 1;
 
+    Animator anim;
+
     void Start()
     {
-
+        anim = gameObject.GetComponent<Animator>();
 
 
     }
@@ -41,6 +43,7 @@ public class Enemy : MonoBehaviour
             
             // Lets other systems in the game know that this enemy has died, and will then destroy itself
             OnEnemyDied.Invoke(points);
+            anim.SetTrigger("died");
             Destroy(this.gameObject, 1f);
 
             // GetComponent<Animator>().SetTrigger("enemyDeath");

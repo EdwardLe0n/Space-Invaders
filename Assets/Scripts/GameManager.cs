@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -14,9 +15,24 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI currScoreText;
     public TextMeshProUGUI hiScoreText;
 
+    // Scene refences for later
+    public Scene menu;
+
+    // Makes sure this won't get destroyed when a new scene is loaded
+    void Awake()
+    {
+        menu = SceneManager.GetSceneByName("SpaceInvadersMenu");
+        DontDestroyOnLoad(gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        // Subscribes the game manager to the FirstShotFired event
+        Player.FirstShot += FirstShotFired;
+
+        // Subscribes the game manager to the polayer Died event
+        Player.Died += PDied;
 
         // Subscribes the game manager to the OnEnemyDied Finction
         Enemy.OnEnemyDied += EnemyOnEnemyDied;
@@ -48,6 +64,45 @@ public class GameManager : MonoBehaviour
         string hiScoreStr = $"HI-SCORE\n  {hiScore.ToString(lead)}";
         hiScoreText.text = hiScoreStr;
 
+
+    }
+
+    void FirstShotFired ()
+    {
+        StartCoroutine(LoadMainGame());
+    }
+    void PDied()
+    {
+        StartCoroutine(LoadCredits());
+    }
+
+    IEnumerator LoadMainGame()
+    {
+
+        if (SceneManager.GetActiveScene() == menu)
+        {
+
+            AsyncOperation asyncOp = SceneManager.LoadSceneAsync("SpaceInvadersGame");
+
+            while (!asyncOp.isDone)
+            {
+                yield return null;
+
+            }
+
+        }
+
+    }
+
+    IEnumerator LoadCredits()
+    {
+        AsyncOperation asyncOp = SceneManager.LoadSceneAsync("SpaceInvadersCredits");
+
+        while (!asyncOp.isDone)
+        {
+            yield return null;
+
+        }
 
     }
 

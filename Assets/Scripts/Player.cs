@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -9,13 +11,17 @@ public class Player : MonoBehaviour
     public float pSpeed = 100f;
     public bool canShoot = true;
     public bool firstFired = false;
+    public int lives = 1;
 
     public delegate void PlayerState();
     public static event PlayerState FirstShot;
+    public static event PlayerState Died;
+
+    Animator anim;
 
     void Start()
     {
-
+        anim = gameObject.GetComponent<Animator>();
         // Subscribes itslef to see when the bullet gets destroyed
         Bullet.OnBulletDestroy += BulletDestroyed;
 
@@ -23,7 +29,8 @@ public class Player : MonoBehaviour
 
     private void OnDestroy()
     {
-
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("SpaceInvadersMenu"))
+            Died.Invoke();
         Bullet.OnBulletDestroy -= BulletDestroyed;
 
     }
@@ -52,12 +59,25 @@ public class Player : MonoBehaviour
                 //Debug.Log("Got to ptA");
             }
 
-            GameObject shot = Instantiate(bullet, shottingOffset.position, Quaternion.identity);
+            // If the game isn't in the menu scene, then an actual bullet will get fired!
+
+            if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("SpaceInvadersMenu"))
+            {
+
+                anim.SetTrigger("shot");
+
+                GameObject shot = Instantiate(bullet, shottingOffset.position, Quaternion.identity);
+
+                canShoot = false;
+                Destroy(shot, 1.2f);
+            }
             // Debug.Log("Bang!");
 
-            canShoot = false;
-            Destroy(shot, 1.2f);
+        }
 
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            tookDamage();
         }
 
         // dealing w/ horizontal movement
@@ -73,4 +93,22 @@ public class Player : MonoBehaviour
         rbody.velocity = Vector3.right * horizontalMovement * Time.deltaTime * pSpeed;
 
     }
+
+    // Will only run when the player loses a life
+    void tookDamage()
+    {
+
+        lives--;
+
+        if (lives <= 0)
+        {
+            anim.SetTrigger("died");
+
+            Destroy(gameObject, 1f);
+        }
+
+    }
+
+
 }
+ 
